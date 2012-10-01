@@ -1,0 +1,4 @@
+name = Bricks
+description = Create user-configurable blocks via code.
+core = 7.x
+package = API

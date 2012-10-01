@@ -1,0 +1,92 @@
+<?php
+
+function bricks($delta = FALSE) {
+  $bricks = variable_get('bricks', array());
+  if(!$delta) {
+    return $bricks;
+  } else {
+    if(isset($bricks[$delta])) {
+      return $bricks[$delta];
+    } else {
+      return array();
+    }
+  }
+}
+
+function bricks_create($delta, $value) {
+  $block = array(
+    'title' => 'Title',
+    'subject' => 'Subject',
+    'content' => 'Content',
+  );
+  $block = array_merge($block, $value);
+  $bricks = bricks();
+  $bricks[$delta] = $block;
+  variable_set('bricks', $bricks);
+}
+
+function bricks_override($delta, $attributes) {
+  $block = variable_get('bricks_' . $delta, array());
+  $block = array_merge($block, $attributes);
+  variable_set('bricks_' . $delta, $block);
+}
+
+function bricks_content_default($delta) {
+  $block = bricks($delta);
+
+  if(isset($block['content'])) {
+    return $block['content'];
+  } else {
+    return '&nbsp;';
+  }
+}
+
+function bricks_content($delta) {
+  $block = variable_get('bricks_' . $delta, array());
+  if(isset($block['content'])) {
+    return $block['content'];
+  } else {
+    return bricks_content_default($delta);    
+  }
+}
+
+
+
+
+/* BLOCK API */
+
+function bricks_block_info() {
+  $bricks = bricks();
+  $blocks = array();
+  foreach($bricks as $delta => $block) {
+    $blocks[$delta] = array(
+      'info' => t($block['info']),
+      'cache' => DRUPAL_NO_CACHE,
+    );    
+  }
+  return $blocks;
+}
+
+function bricks_block_view($delta) {
+  $brick = bricks($delta);
+  $block = array();
+  $block['subject'] = t($brick['subject']);
+  $block['content'] = bricks_content($delta);
+  return $block;
+}
+
+function bricks_block_configure($delta) {
+  $form = array();
+  $form['content'] = array(
+    '#type' => 'textarea', 
+    '#title' => t('Block contents'), 
+    '#size' => 240, 
+    '#description' => t('This text will appear in the block.'), 
+    '#default_value' => bricks_content($delta),
+  ); 
+  return $form; 
+}
+
+function bricks_block_save($delta, $edit = array()) {
+  bricks_override($delta, $edit);
+}
