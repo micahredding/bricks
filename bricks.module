@@ -1,92 +1,57 @@
 <?php
 
-function bricks($delta = FALSE) {
-  $bricks = variable_get('bricks', array());
-  if(!$delta) {
-    return $bricks;
-  } else {
-    if(isset($bricks[$delta])) {
-      return $bricks[$delta];
+/* This module defines a few workflow functions and helper functions 
+   for declaring blocks in code.
+
+   bricks_block_content => an array of the current field content of the block
+   bricks_block_save    => process an edit array to save the update content
+   bricks_array_to_html => create an html string from the array content
+   bricks_array_to_form => create a configuration form from the array content
+*/
+
+include 'bricks.private.inc';
+
+
+/* @begin Public Functions */
+function bricks_block_content($delta) {
+  $current = array();
+  $defaults = _bricks_defaults($delta);
+  foreach($defaults as $fieldname => $fielddefault) {
+    $current[$fieldname] = bricks_get(_b($delta, $fieldname), $fielddefault);
+  }
+  return $current;
+}
+
+function bricks_block_save($delta, $edit) {
+  $defaults = _bricks_defaults($delta);
+  foreach($edit as $fieldname => $fieldcontent) {
+    if($fieldcontent == $defaults[$fieldname]) {
+      bricks_unset(_b($delta, $fieldname));
     } else {
-      return array();
+      bricks_set(_b($delta, $fieldname), $fieldcontent);
     }
   }
 }
 
-function bricks_create($delta, $value) {
-  $block = array(
-    'title' => 'Title',
-    'subject' => 'Subject',
-    'content' => 'Content',
-  );
-  $block = array_merge($block, $value);
-  $bricks = bricks();
-  $bricks[$delta] = $block;
-  variable_set('bricks', $bricks);
-}
-
-function bricks_override($delta, $attributes) {
-  $block = variable_get('bricks_' . $delta, array());
-  $block = array_merge($block, $attributes);
-  variable_set('bricks_' . $delta, $block);
-}
-
-function bricks_content_default($delta) {
-  $block = bricks($delta);
-
-  if(isset($block['content'])) {
-    return $block['content'];
-  } else {
-    return '&nbsp;';
+/* @begin Public Helper Functions */
+function bricks_array_to_html($block_array) {
+  $block = '<div class="block-content>';
+  foreach($block_array as $fieldname => $fieldcontent) {
+    $block .= '<div class="block-' . $fieldname . '">' . check_markup($fieldcontent) . '</div>';
   }
-}
-
-function bricks_content($delta) {
-  $block = variable_get('bricks_' . $delta, array());
-  if(isset($block['content'])) {
-    return $block['content'];
-  } else {
-    return bricks_content_default($delta);    
-  }
-}
-
-
-
-
-/* BLOCK API */
-
-function bricks_block_info() {
-  $bricks = bricks();
-  $blocks = array();
-  foreach($bricks as $delta => $block) {
-    $blocks[$delta] = array(
-      'info' => t($block['info']),
-      'cache' => DRUPAL_NO_CACHE,
-    );    
-  }
-  return $blocks;
-}
-
-function bricks_block_view($delta) {
-  $brick = bricks($delta);
-  $block = array();
-  $block['subject'] = t($brick['subject']);
-  $block['content'] = bricks_content($delta);
+  $block .= '</div>';
   return $block;
 }
 
-function bricks_block_configure($delta) {
+function bricks_array_to_form($block) {
   $form = array();
-  $form['content'] = array(
-    '#type' => 'textarea', 
-    '#title' => t('Block contents'), 
-    '#size' => 240, 
-    '#description' => t('This text will appear in the block.'), 
-    '#default_value' => bricks_content($delta),
-  ); 
-  return $form; 
-}
-
-function bricks_block_save($delta, $edit = array()) {
-  bricks_override($delta, $edit);
+  foreach($block as $fieldname => $fieldcontent) {
+    $form[$fieldname] = array(
+      '#type' => 'textfield', 
+      '#title' => t($fieldname), 
+      '#description' => t('This text will appear in the block.'), 
+      '#default_value' => $fieldcontent,
+    );    
+  }
+  return $form;
 }

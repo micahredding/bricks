@@ -1,4 +1,4 @@
 name = Bricks
-description = Create user-configurable blocks via code.
+description = A helper module for defining your own custom configurable blocks in code. By Micah Redding.
 core = 7.x
-package = API
+package = Bricks

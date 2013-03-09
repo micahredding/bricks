@@ -1,13 +1,13 @@
 <?php
 
 bricks_uninstall() {
-  $bricks = variable_get('bricks', FALSE);
-  if(!$bricks) {
-  } else {
-    foreach($bricks as $delta => $value) {
-      variable_del('bricks_' . $delta);
-      variable_del('bricks_' . $delta . '_content');
-    }
-  }
-  variable_del('bricks');
+  // $bricks = variable_get('bricks', FALSE);
+  // if(!$bricks) {
+  // } else {
+  //   foreach($bricks as $delta => $value) {
+  //     variable_del('bricks_' . $delta);
+  //     variable_del('bricks_' . $delta . '_content');
+  //   }
+  // }
+  // variable_del('bricks');
 }
