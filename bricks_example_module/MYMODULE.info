@@ -1,0 +1,6 @@
+name = Bricks Tester Module
+description = Testing out the Bricks module
+core = 7.x
+package = Bricks
+
+dependencies[] = bricks
