@@ -3,17 +3,19 @@
 /* This module defines a few workflow functions and helper functions 
    for declaring blocks in code.
 
-   bricks_block_content => an array of the current field content of the block
-   bricks_block_save    => process an edit array to save the update content
-   bricks_array_to_html => create an html string from the array content
-   bricks_array_to_form => create a configuration form from the array content
+   bricks_block_load      => an array of the current field content of the block
+   bricks_block_save      => process an edit array to save the update content
+   bricks_block_configure => create a configuration form from the array content
+   bricks_block_content   => create an html string from the array content
 */
 
 include 'bricks.private.inc';
 
 
 /* @begin Public Functions */
-function bricks_block_content($delta) {
+
+/* This function loads the defaults and current variables, and returns an array of field=>content */
+function bricks_block_load($delta) {
   $current = array();
   $defaults = _bricks_defaults($delta);
   foreach($defaults as $fieldname => $fielddefault) {
@@ -22,6 +24,21 @@ function bricks_block_content($delta) {
   return $current;
 }
 
+/* This returns HTML of the block content */
+function bricks_block_content($delta) {
+  $block_array = bricks_block_load($delta);
+  $html = bricks_array_to_html($block_array);
+  return $html;
+}
+
+/* This returns a form render array for all the blocks fields */
+function bricks_block_configure($delta) {
+  $block = bricks_block_load($delta);
+  $form = bricks_array_to_form($block);
+  return $form;
+}
+
+/* This processes an edit array, and saves the fields */
 function bricks_block_save($delta, $edit) {
   $defaults = _bricks_defaults($delta);
   foreach($edit as $fieldname => $fieldcontent) {
@@ -32,18 +49,7 @@ function bricks_block_save($delta, $edit) {
     }
   }
 }
-
-function bricks_block_html($delta) {
-  $block_array = bricks_block_content($delta);
-  $html = bricks_array_to_html($block_array);
-  return $html;
-}
-
-function bricks_block_form($delta) {
-  $block = bricks_block_content($delta);
-  $form = bricks_array_to_form($block);
-  return $form;
-}
+/* @end Public Functions */
 
 /* @begin Public Helper Functions */
 function bricks_array_to_html($block_array) {
@@ -67,3 +73,4 @@ function bricks_array_to_form($block) {
   }
   return $form;
 }
+/* @end Public Helper Functions */

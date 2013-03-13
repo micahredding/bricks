@@ -23,21 +23,21 @@ function MYMODULE_block_view($delta = '') {
   switch($delta) {
     case 'trainers':
       $block['subject'] = 'For Trainees';
-      $block['content'] = MYMODULE_block_content($delta);
+      $block['content'] = bricks_block_content($delta);
       break;
     case 'employees':
       $block['subject'] = 'For Employers';
-      $block['content'] = MYMODULE_block_content($delta);
+      $block['content'] = bricks_block_content($delta);
       break;
     case 'partners':
       $block['subject'] = 'For Partners';
-      $block['content'] = MYMODULE_block_content($delta);
+      $block['content'] = bricks_block_content($delta);
       break;
   }
   return $block;
 }
 
-/* Implements hook_variable_default_content */
+/* Implements hook_block_default_content */
 function MYMODULE_block_default_content($delta) {
   $default = array();
   switch($delta) {
@@ -70,8 +70,11 @@ function MYMODULE_block_default_content($delta) {
 function MYMODULE_block_configure($delta = '') {
   $form = array();
   switch($delta) {
+    case '':
+      /* This is where you can write custom handlers, which may or may not fall back on the Bricks functions */    
+      break;
     default:
-      $form = bricks_block_form($delta);
+      $form = bricks_block_configure($delta);
       break;
   }
   return $form;
@@ -79,21 +82,12 @@ function MYMODULE_block_configure($delta = '') {
 
 function MYMODULE_block_save($delta = '', $edit = array()) {
   switch($delta) {
+    case '':
+      /* This is where you can write custom handlers, which may or may not fall back on the Bricks functions */
+      break;
     default:
       bricks_block_save($delta, $edit);
       break;
   }
 }
-
-function MYMODULE_block_content($delta) {
-  $html = '';
-  switch($delta) {
-    default:
-      $html = bricks_block_html($delta);
-      break;
-  }
-  return $html;
-}
 /* @end Logic */
-
-
