@@ -1,4 +1,27 @@
 <?php
+/* @begin Public Helper Functions */
+function bricks_array_to_html($block_array) {
+  $block = '<div class="block-content>';
+  foreach($block_array as $fieldname => $fieldcontent) {
+    $block .= '<div class="block-' . $fieldname . '">' . check_markup($fieldcontent) . '</div>';
+  }
+  $block .= '</div>';
+  return $block;
+}
+
+function bricks_array_to_form($block) {
+  $form = array();
+  foreach($block as $fieldname => $fieldcontent) {
+    $form[$fieldname] = array(
+      '#type' => 'textfield', 
+      '#title' => t($fieldname), 
+      '#description' => t('This text will appear in the block.'), 
+      '#default_value' => $fieldcontent,
+    );    
+  }
+  return $form;
+}
+/* @end Public Helper Functions */
 
 /* @begin Internal Functions */
 
