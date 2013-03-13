@@ -5,7 +5,7 @@ An exploratory way to programmatically create user-configurable blocks in Drupal
 
 # Usage
 
-Examine the MYMODULE example module to learn how this works.
+Examine the MYMODULE example module to learn how this works. Or duplicate and modify the example module.
 
 # Reason
 
