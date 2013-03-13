@@ -33,6 +33,18 @@ function bricks_block_save($delta, $edit) {
   }
 }
 
+function bricks_block_html($delta) {
+  $block_array = bricks_block_content($delta);
+  $html = bricks_array_to_html($block_array);
+  return $html;
+}
+
+function bricks_block_form($delta) {
+  $block = bricks_block_content($delta);
+  $form = bricks_array_to_form($block);
+  return $form;
+}
+
 /* @begin Public Helper Functions */
 function bricks_array_to_html($block_array) {
   $block = '<div class="block-content>';
