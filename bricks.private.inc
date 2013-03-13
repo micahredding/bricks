@@ -19,8 +19,27 @@ function bricks_array_to_form($block) {
       '#default_value' => $fieldcontent,
     );    
   }
+  $form['reset'] = array(
+    '#type' => 'submit',
+    '#value' => 'Reset all block content. (Careful!)',
+    '#weight' => '1000',
+    '#submit' => array('bricks_block_reset_submit'),
+  );
   return $form;
 }
+
+function bricks_block_reset_submit($form, &$form_state) {
+  $delta = $form['delta']['#value'];
+  bricks_block_reset($delta);  
+}
+
+function bricks_block_reset($delta) {
+  $fields = array_keys(_bricks_defaults($delta));
+  foreach($fields as $index => $fieldname) {
+    bricks_unset(_b($delta, $fieldname));
+  }
+}
+
 /* @end Public Helper Functions */
 
 /* @begin Internal Functions */
@@ -76,5 +95,6 @@ function _b(/* $key1, $key2, $key3 */) {
 
 /* Prefix a variable name */
 function _p($key) {
-  return 'bricks_' . $key;
+  return $key;
+  // return 'bricks_' . $key;
 }

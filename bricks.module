@@ -7,6 +7,8 @@
    bricks_block_save      => process an edit array to save the update content
    bricks_block_configure => create a configuration form from the array content
    bricks_block_content   => create an html string from the array content
+
+   The last three functions correspond to drupal block hooks, and act as drop-in replacements for normal block functionality.
 */
 
 include 'bricks.private.inc';
