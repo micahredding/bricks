@@ -1,12 +1,16 @@
 <?php
 /* @begin Public Helper Functions */
 function bricks_array_to_html($block_array) {
-  $block = '<div class="block-content>';
-  foreach($block_array as $fieldname => $fieldcontent) {
-    $block .= '<div class="block-' . $fieldname . '">' . check_markup($fieldcontent) . '</div>';
-  }
-  $block .= '</div>';
-  return $block;
+  return theme('bricks_content', array('content' => $block_array));
+}
+
+function bricks_theme($existing, $type, $theme, $path) {
+  return array(
+    'bricks_content' => array(
+      'template' => 'bricks_content',
+      'variables' => array(),
+    ),
+  );
 }
 
 function bricks_array_to_form($block) {
