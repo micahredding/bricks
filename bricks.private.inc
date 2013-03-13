@@ -12,12 +12,21 @@ function bricks_array_to_html($block_array) {
 function bricks_array_to_form($block) {
   $form = array();
   foreach($block as $fieldname => $fieldcontent) {
-    $form[$fieldname] = array(
-      '#type' => 'textfield', 
-      '#title' => t($fieldname), 
-      '#description' => t('This text will appear in the block.'), 
-      '#default_value' => $fieldcontent,
-    );    
+    if(strlen($fieldcontent) > 50) {
+      $form[$fieldname] = array(
+        '#type' => 'textarea', 
+        '#title' => t($fieldname), 
+        '#description' => t('This text will appear in the block.'), 
+        '#default_value' => $fieldcontent,
+      );    
+    } else {
+      $form[$fieldname] = array(
+        '#type' => 'textfield', 
+        '#title' => t($fieldname), 
+        '#description' => t('This text will appear in the block.'), 
+        '#default_value' => $fieldcontent,
+      );          
+    }
   }
   $form['reset'] = array(
     '#type' => 'submit',
