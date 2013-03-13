@@ -71,8 +71,7 @@ function MYMODULE_block_configure($delta = '') {
   $form = array();
   switch($delta) {
     default:
-      $block = bricks_block_content($delta);
-      $form = bricks_array_to_form($block);
+      $form = bricks_block_form($delta);
       break;
   }
   return $form;
@@ -90,8 +89,7 @@ function MYMODULE_block_content($delta) {
   $html = '';
   switch($delta) {
     default:
-      $block_array = bricks_block_content($delta);
-      $html = bricks_array_to_html($block_array);
+      $html = bricks_block_html($delta);
       break;
   }
   return $html;
