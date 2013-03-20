@@ -1,4 +1,5 @@
 name = Bricks
 description = A helper module for defining your own custom configurable blocks in code. By Micah Redding.
 core = 7.x
+version = 1.0
 package = Bricks
