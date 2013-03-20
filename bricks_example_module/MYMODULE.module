@@ -38,6 +38,8 @@ function MYMODULE_block_view($delta = '') {
 }
 
 /* Implements hook_block_default_content */
+/* From the Bricks module */
+
 function MYMODULE_block_default_content($delta) {
   $default = array();
   switch($delta) {
@@ -73,7 +75,14 @@ function MYMODULE_block_configure($delta = '') {
     case '':
       /* This is where you can write custom handlers, which may or may not fall back on the Bricks functions */    
       break;
+    case '':
+      /* You can use the bricks functions to load up a form, then do custom modifications to the form */
+      // $form = bricks_block_configure($delta);
+      // $form['body']['#type'] = 'textarea';
+      break;
     default:
+      /* This loads the defaults, and creates a form from them. */
+      /* If you need extra fields, you can add them in the defaults area, and they will be automatically added here. */
       $form = bricks_block_configure($delta);
       break;
   }
@@ -86,6 +95,8 @@ function MYMODULE_block_save($delta = '', $edit = array()) {
       /* This is where you can write custom handlers, which may or may not fall back on the Bricks functions */
       break;
     default:
+      /* This simply runs through the submitted form, and saves all the content into appropriate variables */
+      /* Unless you've got odd needs, there shouldn't be much reason to do anything else */
       bricks_block_save($delta, $edit);
       break;
   }
