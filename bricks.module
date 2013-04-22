@@ -11,8 +11,10 @@
    The last three functions correspond to drupal block hooks, and act as drop-in replacements for normal block functionality.
 */
 
+include 'bricks.hooks.inc';
 include 'bricks.private.inc';
-
+include 'bricks.form.inc';
+include 'bricks.pages.inc';
 
 /* @begin Public Functions */
 
