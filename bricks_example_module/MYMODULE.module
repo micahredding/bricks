@@ -31,7 +31,8 @@ function MYMODULE_block_view($delta = '') {
       break;
     case 'partners':
       $block['subject'] = 'For Partners';
-      $block['content'] = bricks_block_content($delta);
+      /* For custom content functions */
+      $block['content'] = MYMODULE_block_content($delta);
       break;
   }
   return $block;
@@ -79,6 +80,13 @@ function MYMODULE_block_configure($delta = '') {
       /* You can use the bricks functions to load up a form, then do custom modifications to the form */
       // $form = bricks_block_configure($delta);
       // $form['body']['#type'] = 'textarea';
+      // $form['image'] = array(
+      //   '#title' => t('Image'),
+      //   '#type' => 'managed_file',
+      //   '#description' => t('The uploaded image will be displayed on this page using the image style choosen below.'),
+      //   '#upload_location' => 'public://MYMODULE/images/',
+      //   '#default_value' => bricks_get($delta, 'image')
+      // );      
       break;
     default:
       /* This loads the defaults, and creates a form from them. */
@@ -93,6 +101,17 @@ function MYMODULE_block_save($delta = '', $edit = array()) {
   switch($delta) {
     case '':
       /* This is where you can write custom handlers, which may or may not fall back on the Bricks functions */
+      
+      /* Handler for image function */
+
+      // if(isset($edit['image']) && is_numeric($edit['image']) && $edit['image'] > 0) {
+      //   $file = file_load($edit['image']);
+      //   $file->status = FILE_STATUS_PERMANENT;
+      //   file_save($file);
+      //   file_usage_add($file, 'MYMODULE', 'node', 1); // Homepage $nid
+      // }
+
+      // bricks_block_save($delta, $edit);
       break;
     default:
       /* This simply runs through the submitted form, and saves all the content into appropriate variables */
@@ -102,3 +121,22 @@ function MYMODULE_block_save($delta = '', $edit = array()) {
   }
 }
 /* @end Logic */
+
+
+
+/* ONLY NEEDED FOR CUSTOM CONTENT HANDLERS */
+function MYMODULE_block_content($delta) {
+  $block_array = bricks_block_load($delta);
+
+  /* Do custom handling here */
+  $image_id = bricks_get($delta, 'image');
+  $image = file_load($image_id);
+  $image_url = file_create_url($image->uri);  
+
+  $block_array['image'] = $image_url;
+  // or
+  $block_array['image'] = '<img src="' . $image_url '" />';
+
+  $html = bricks_array_to_html($block_array);  
+  return $html;  
+}
