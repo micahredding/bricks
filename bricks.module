@@ -54,10 +54,12 @@ function bricks_block_save($delta, $edit) {
     //   file_usage_add($file, 'MYMODULE', 'node', 1); // Homepage $nid      
     // }
 
-    if($fieldcontent == $defaults[$fieldname]) {
-      bricks_unset(_b($delta, $fieldname));
-    } else {
-      bricks_set(_b($delta, $fieldname), $fieldcontent);
+    if(isset($defaults[$fieldname])) {
+      if($fieldcontent == $defaults[$fieldname]) {
+        bricks_unset(_b($delta, $fieldname));
+      } else {
+        bricks_set(_b($delta, $fieldname), $fieldcontent);
+      }      
     }
   }
 }
