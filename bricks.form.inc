@@ -4,14 +4,7 @@ function bricks_array_to_form($block) {
   $form = array();
 
   foreach($block as $fieldname => $fieldcontent) {
-    $type = 'textfield';
-    if(is_string($fieldcontent) && strlen($fieldcontent) > 50) {
-      $type = 'textarea';
-    }
-    if (strpos($fieldname, 'image') !== FALSE) {
-      $type = 'image';
-    }
-
+    $type = bricks_field_type($fieldname, $fieldcontent);
     switch($type) {
       case 'textfield':
         $form[$fieldname] = array(
