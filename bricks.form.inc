@@ -2,21 +2,41 @@
 
 function bricks_array_to_form($block) {
   $form = array();
+
   foreach($block as $fieldname => $fieldcontent) {
-    if(strlen($fieldcontent) > 50) {
-      $form[$fieldname] = array(
-        '#type' => 'textarea', 
-        '#title' => t($fieldname), 
-        '#description' => t('This text will appear in the block.'), 
-        '#default_value' => $fieldcontent,
-      );    
-    } else {
-      $form[$fieldname] = array(
-        '#type' => 'textfield', 
-        '#title' => t($fieldname), 
-        '#description' => t('This text will appear in the block.'), 
-        '#default_value' => $fieldcontent,
-      );          
+    $type = 'textfield';
+    if(is_string($fieldcontent) && strlen($fieldcontent) > 50) {
+      $type = 'textarea';
+    }
+    if (strpos($fieldname, 'image') !== FALSE) {
+      $type = 'image';
+    }
+
+    switch($type) {
+      case 'textfield':
+        $form[$fieldname] = array(
+          '#type' => 'textfield', 
+          '#title' => t($fieldname), 
+          '#description' => t('This text will appear in the block.'), 
+          '#default_value' => $fieldcontent,
+        );          
+        break;
+      case 'textarea':
+        $form[$fieldname] = array(
+          '#type' => 'textarea', 
+          '#title' => t($fieldname), 
+          '#description' => t('This text will appear in the block.'), 
+          '#default_value' => $fieldcontent,
+        );    
+        break;
+      case 'image':
+        $form[$fieldname] = array(
+          '#type' => 'managed_file',
+          '#description' => t('The uploaded image will be displayed on this page using the image style choosen below.'),
+          '#upload_location' => 'public://' . $delta . '/' . 'images/',
+          '#default_value' => $fieldcontent,
+        );                  
+        break;
     }
   }
   $form['export'] = array(
