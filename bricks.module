@@ -46,6 +46,14 @@ function bricks_block_configure($delta) {
 function bricks_block_save($delta, $edit) {
   $defaults = _bricks_defaults($delta);
   foreach($edit as $fieldname => $fieldcontent) {
+    // if(bricks_field_type($fieldname, $fieldcontent) == 'image') {
+    //   if(isset($edit[$fieldname]) && is_numeric($edit['image']) && $edit['image'] > 0) {
+    //   $file = file_load($edit['image']);
+    //   $file->status = FILE_STATUS_PERMANENT;
+    //   file_save($file);
+    //   file_usage_add($file, 'MYMODULE', 'node', 1); // Homepage $nid      
+    // }
+
     if($fieldcontent == $defaults[$fieldname]) {
       bricks_unset(_b($delta, $fieldname));
     } else {
