@@ -12,7 +12,7 @@ function MYMODULE_block_info() {
     'cache' => DRUPAL_NO_CACHE,
   );  
   $blocks['partners'] = array(
-    'info' => 'Partners',
+    'info' => 'MYMODULE block name',
     'cache' => DRUPAL_NO_CACHE,
   );  
   return $blocks;
@@ -135,7 +135,7 @@ function MYMODULE_block_content($delta) {
 
   $block_array['image'] = $image_url;
   // or
-  $block_array['image'] = '<img src="' . $image_url '" />';
+  $block_array['image'] = '<img src="' . $image_url . '" />';
 
   $html = bricks_array_to_html($block_array);  
   return $html;  
