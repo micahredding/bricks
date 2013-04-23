@@ -85,7 +85,7 @@ function MYMODULE_block_configure($delta = '') {
       //   '#type' => 'managed_file',
       //   '#description' => t('The uploaded image will be displayed on this page using the image style choosen below.'),
       //   '#upload_location' => 'public://MYMODULE/images/',
-      //   '#default_value' => bricks_get($delta, 'image')
+      //   '#default_value' => bricks_get(_b($delta, 'image')),
       // );      
       break;
     default:
