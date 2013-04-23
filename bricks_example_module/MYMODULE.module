@@ -32,7 +32,8 @@ function MYMODULE_block_view($delta = '') {
     case 'partners':
       $block['subject'] = 'For Partners';
       /* For custom content functions */
-      $block['content'] = MYMODULE_block_content($delta);
+      // $block['content'] = MYMODULE_block_content($delta);
+      $block['content'] = bricks_block_content($delta);
       break;
   }
   return $block;
@@ -58,6 +59,8 @@ function MYMODULE_block_default_content($delta) {
       break;
     case 'partners':
       $default = array(
+        /* Add in fields for uploadable images - anything with "image in the field name will be treated as an image" */
+        'image' => 0,
         'subtitle' => 'Duis mollis, eget lacinia odio sem nec',
         'body' => 'Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis. ac consectetur ac, vestibulum at eros.',
       );
@@ -125,18 +128,18 @@ function MYMODULE_block_save($delta = '', $edit = array()) {
 
 
 /* ONLY NEEDED FOR CUSTOM CONTENT HANDLERS */
-function MYMODULE_block_content($delta) {
-  $block_array = bricks_block_load($delta);
+// function MYMODULE_block_content($delta) {
+//   $block_array = bricks_block_load($delta);
 
-  /* Do custom handling here */
-  $image_id = bricks_get($delta, 'image');
-  $image = file_load($image_id);
-  $image_url = file_create_url($image->uri);  
+//   /* Do custom handling here */
+//   $image_id = bricks_get(_b($delta, 'image'));
+//   $image = file_load($image_id);
+//   $image_url = file_create_url($image->uri);  
 
-  $block_array['image'] = $image_url;
-  // or
-  $block_array['image'] = '<img src="' . $image_url . '" />';
+//   $block_array['image'] = $image_url;
+//   // or
+//   $block_array['image'] = '<img src="' . $image_url . '" />';
 
-  $html = bricks_array_to_html($block_array);  
-  return $html;  
-}
+//   $html = bricks_array_to_html($block_array);  
+//   return $html;  
+// }
