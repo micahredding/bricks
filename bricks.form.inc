@@ -33,7 +33,7 @@ function bricks_array_to_form($block) {
     }
   }
   $form['export'] = array(
-    '#type' => 'button',
+    '#type' => 'submit',
     '#value' => 'Export current block content',
     '#weight' => '999',
     '#submit' => array('bricks_block_export_submit'),
@@ -49,8 +49,13 @@ function bricks_array_to_form($block) {
 
 
 function bricks_block_export_submit($form, &$form_state) {
-  $delta = $form['delta']['#value'];
-  $form_state['redirect'] = array('admin/bricks/export/' . $delta);
+  // drupal_set_message('hi');
+  // $delta = $form['delta']['#value'];
+  // drupal_goto('admin/bricks/export/' . $delta);
+  // $form_state['redirect'] = 'admin/bricks/export/' . $delta;
+  // $output = bricks_block_load($delta);
+  $form_state['markup'] = 'hi';
+  $form_state['rebuild'] = TRUE;
 }
 function bricks_block_reset_submit($form, &$form_state) {
   $delta = $form['delta']['#value'];
